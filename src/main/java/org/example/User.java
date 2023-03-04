@@ -8,9 +8,16 @@ public class User {
     }
 
     public User(String login, String email) {
+        if (login.equals(email)) {
+            throw new IllegalArgumentException();
+        } else if (email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException();
+        }
         this.login = login;
-        this.email = email;
     }
+
 
     public String getLogin() {
         return login;
@@ -19,5 +26,6 @@ public class User {
     public String getEmail() {
         return email;
     }
+
 }
 

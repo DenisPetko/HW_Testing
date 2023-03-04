@@ -4,12 +4,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
+    public static final String CORRECT_LOGIN = "Den";
+    public static final String CORRECT_EMAIL = "some@email.ru";
+//    public static final String INCORRECT_LOGIN = "_Den_";
+    public static final String INCORRECT_EMAIL = "someemail.ru";
 
     @Test
     public void shouldReturnCreateUserWithParameters() {
-        User user = new User("Den", "some@email.ru");
-        assertNotNull(user.getLogin());
-        assertNotNull(user.getEmail());
+        User user = new User(CORRECT_LOGIN, CORRECT_EMAIL);
+        assertEquals(CORRECT_LOGIN, user.getLogin());
+        assertEquals(CORRECT_EMAIL, user.getEmail());
     }
 
     @Test
@@ -20,15 +24,15 @@ public class UserTest {
     }
 
     @Test
-    public void shouldReturnCorrectEmailTrue() {
-        User user = new User("Den", "some@email.ru");
-        assertTrue(user.getEmail().contains("@") && user.getEmail().contains("."));
+    public void shouldReturnExceptionWhenEmailNotCorrect() {
+        assertThrows(IllegalArgumentException.class, () -> new User(CORRECT_LOGIN, INCORRECT_EMAIL));
+        assertDoesNotThrow(() -> new User(CORRECT_LOGIN, CORRECT_EMAIL));
     }
 
     @Test
-    public void shouldReturnLoginNotEqualsEmailTrue() {
-        User user = new User("Den", "some@email.ru");
-        assertNotEquals(user.getLogin(), user.getEmail());
+    public void shouldReturnExceptionWhenLoginEqualsEmail() {
+        assertThrows(IllegalArgumentException.class, () -> new User(CORRECT_LOGIN, CORRECT_LOGIN));
+        assertDoesNotThrow(() -> new User(CORRECT_LOGIN, CORRECT_EMAIL));
     }
 
 }
